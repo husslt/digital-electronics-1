@@ -1,4 +1,4 @@
-# Lab 1: INSERT_YOUR_FIRSTNAME INSERT_YOUR_LASTNAME
+# Lab 1: Tomáš Husslik
 
 ### De Morgan's laws
 
@@ -21,21 +21,21 @@ end architecture dataflow;
 
    | **c** | **b** |**a** | **f_ORIG** | **f_(N)AND** | **f_(N)OR** |
    | :-: | :-: | :-: | :-: | :-: | :-: |
-   | 0 | 0 | 0 | 0 | 0 |  |
-   | 0 | 0 | 1 | 1 | 1 |  |
-   | 0 | 1 | 0 | 0 | 0 |  |
-   | 0 | 1 | 1 | 0 | 0 |  |
-   | 1 | 0 | 0 | 0 | 0 |  |
-   | 1 | 0 | 1 | 1 | 1 |  |
-   | 1 | 1 | 0 | 0 | 0 |  |
-   | 1 | 1 | 1 | 0 | 0 |  |
+   | 0 | 0 | 0 | 0 | 0 | 0 |
+   | 0 | 0 | 1 | 1 | 1 | 1 |
+   | 0 | 1 | 0 | 0 | 0 | 0 |
+   | 0 | 1 | 1 | 0 | 0 | 0 |
+   | 1 | 0 | 0 | 0 | 0 | 0 |
+   | 1 | 0 | 1 | 1 | 1 | 1 |
+   | 1 | 1 | 0 | 0 | 0 | 0 |
+   | 1 | 1 | 1 | 0 | 0 | 0 |
 
 ### Distributive laws
 
 1. Screenshot with simulated time waveforms. Always display all inputs and outputs (display the inputs at the top of the image, the outputs below them) at the appropriate time scale!
 
-   ![your figure]()
+   ![Result](images/result.png)
 
 2. Link to your public EDA Playground example:
 
-   [https://www.edaplayground.com/...](https://www.edaplayground.com/...)
+   [Link](https://www.edaplayground.com/x/s9Y8)
