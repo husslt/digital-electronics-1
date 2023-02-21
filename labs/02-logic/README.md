@@ -26,25 +26,56 @@
     p_stimulus : process
     begin
         -- Report a note at the beginning of stimulus process
-        report "Stimulus process started" severity note;
+        report "Stimulus process started";
 
-        -- First test case
-        s_b <= "BCD_OF_YOUR_SECOND_LAST_ID_DIGIT"; -- Such as "0101" if ID = xxxx56
-        s_a <= "BCD_OF_YOUR_LAST_ID_DIGIT";        -- Such as "0110" if ID = xxxx56
+        -- First test case ...
+        s_b <= "0010"; -- xxxx2x
+        s_a <= "0111"; -- xxxxx7 
         wait for 100 ns;
-        -- Expected output
-        assert ((s_B_greater_A = 'WRITE_CORRECT_VALUE_HERE') and
-                (s_B_equals_A  = 'WRITE_CORRECT_VALUE_HERE') and
-                (s_B_less_A    = 'WRITE_CORRECT_VALUE_HERE'))
+        -- ... and its expected outputs
+        assert ((s_B_greater_A = '0') and
+                (s_B_equals_A  = '0') and
+                (s_B_less_A    = '1'))
         -- If false, then report an error
-        report "Input combination COMPLETE_THIS_TEXT FAILED" severity error;
+        -- If true, then do not report anything
+        report "Input combination 0111, 0010 FAILED" severity error;
+        
+        -- Second test case ...
+        s_b <= "1111"; s_a <= "1110"; wait for 100 ns;
+        -- ... and its expected outputs
+        assert ((s_B_greater_A = '1') and
+                (s_B_equals_A  = '0') and
+                (s_B_less_A    = '0'))
+        -- If false, then report an error
+        -- If true, then do not report anything
+        report "Input combination 1111, 1110 FAILED" severity error;
+        
+        -- Third test case ...
+        s_b <= "0011"; s_a <= "0100"; wait for 100 ns;
+        -- ... and its expected outputs
+        assert ((s_B_greater_A = '0') and
+                (s_B_equals_A  = '0') and
+                (s_B_less_A    = '1'))
+        -- If false, then report an error
+        -- If true, then do not report anything
+        report "Input combination 0011, 0100 FAILED" severity error;
+        
+        -- Fourth test case ...
+        s_b <= "0001"; s_a <= "0001"; wait for 100 ns;
+        -- ... and its expected outputs
+        assert ((s_B_greater_A = '0') and
+                (s_B_equals_A  = '1') and
+                (s_B_less_A    = '0'))
+        -- If false, then report an error
+        -- If true, then do not report anything
+        report "Input combination 0001, 0001 FAILED" severity error;
 
         -- Report a note at the end of stimulus process
-        report "Stimulus process finished" severity note;
-        wait;
+        report "Stimulus process finished";
+        wait; -- Data generation process is suspended forever
     end process p_stimulus;
 ```
 
 2. Link to your public EDA Playground example:
 
-   [https://www.edaplayground.com/...](https://www.edaplayground.com/...)
+   [Link to EDA Playground](https://www.edaplayground.com/x/Lpj9)
