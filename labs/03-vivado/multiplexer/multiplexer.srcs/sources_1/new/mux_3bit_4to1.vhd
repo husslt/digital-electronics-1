@@ -32,7 +32,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity mux_3bit_4to1 is
---  Port ( );
+  port (
+    a           : in    std_logic_vector(3 downto 0); --! Input data A[3:0]
+    b           : out   std_logic                    --! Output is `1` if B>A
+  );
 end mux_3bit_4to1;
 
 architecture Behavioral of mux_3bit_4to1 is
