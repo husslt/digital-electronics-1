@@ -33,7 +33,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity mux_3bit_4to1 is
   port (
-    sel         : in    std_logic_vector(3 downto 0); --! Input select
+    a           : in    std_logic_vector(3 downto 0); --! Input data A[3:0]
     b           : out   std_logic                    --! Output is `1` if B>A
   );
 end mux_3bit_4to1;
