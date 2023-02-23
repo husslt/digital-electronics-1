@@ -33,14 +33,21 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity mux_3bit_4to1 is
   port (
-    a           : in    std_logic_vector(3 downto 0); --! Input data A[3:0]
-    b           : out   std_logic                    --! Output is `1` if B>A
+    selct_i         : in    std_logic_vector(2 - 1 downto 0); 
+    a_i		        : out   std_logic_vector(3 - 1 downto 0);                	
+	b_i		        : out   std_logic_vector(3 - 1 downto 0);  
+	c_i		        : out   std_logic_vector(3 - 1 downto 0);  
+	d_i		        : out   std_logic_vector(3 - 1 downto 0);  
+	s_o		        : out   std_logic_vector(3 - 1 downto 0);  
   );
 end mux_3bit_4to1;
 
 architecture Behavioral of mux_3bit_4to1 is
 
 begin
-
+    s_o <= a_i when (selct_i = "00") else
+           b_i when (selct_i = "01") else
+           c_i when (selct_i = "10") else
+           d_i when (selct_i = "11");    
 
 end Behavioral;
