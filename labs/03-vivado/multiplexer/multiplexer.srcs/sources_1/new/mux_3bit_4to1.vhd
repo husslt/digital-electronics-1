@@ -34,11 +34,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity mux_3bit_4to1 is
   port (
     selct_i         : in    std_logic_vector(2 - 1 downto 0); 
-    a_i		        : out   std_logic_vector(3 - 1 downto 0);                	
-	b_i		        : out   std_logic_vector(3 - 1 downto 0);  
-	c_i		        : out   std_logic_vector(3 - 1 downto 0);  
-	d_i		        : out   std_logic_vector(3 - 1 downto 0);  
-	s_o		        : out   std_logic_vector(3 - 1 downto 0);  
+    a_i		        : in   std_logic_vector(3 - 1 downto 0);                	
+	b_i		        : in   std_logic_vector(3 - 1 downto 0);  
+	c_i		        : in   std_logic_vector(3 - 1 downto 0);  
+	d_i		        : in   std_logic_vector(3 - 1 downto 0);  
+	s_o		        : out   std_logic_vector(3 - 1 downto 0)  
   );
 end mux_3bit_4to1;
 
