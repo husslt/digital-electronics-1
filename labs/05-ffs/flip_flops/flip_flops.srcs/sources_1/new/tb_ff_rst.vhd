@@ -23,6 +23,10 @@ architecture testbench of tb_ff_rst is
     signal sig_dq_bar     : std_logic;
     signal sig_tq         : std_logic;
     signal sig_tq_bar     : std_logic;
+    signal sig_j		  : std_logic;
+    signal sig_k		  : std_logic;
+    signal sig_jkq        : std_logic;
+    signal sig_jkq_bar    : std_logic;
 
 begin
     -- Connecting testbench signals with d_ff_rst entity
@@ -43,13 +47,22 @@ begin
             q     => sig_tq,
             q_bar => sig_tq_bar
         );
+     uut_jk_ff_rst : entity work.jk_ff_rst
+        port map (
+            clk   => sig_clk_100MHz,
+            rst   => sig_rst,
+            j     => sig_j,
+            k	  => sig_k,
+            q     => sig_jkq,
+            q_bar => sig_jkq_bar
+        );
 
     --------------------------------------------------------
     -- Clock generation process
     --------------------------------------------------------
     p_clk_gen : process
     begin
-        while now < 300 ns loop -- 30 periods of 100MHz clock
+        while now < 200 ns loop -- 30 periods of 100MHz clock
             sig_clk_100MHz <= '0';
             wait for c_CLK_100MHZ_PERIOD / 2;
             sig_clk_100MHz <= '1';
@@ -66,15 +79,12 @@ begin
         sig_rst <= '0';
 
         -- ACTIVATE AND DEACTIVATE RESET HERE
-        -- wait for XXX ns;
-        -- sig_rst <= XXX;
-        -- wait for XXX ns;
-        -- sig_rst <= XXX;
-        wait for 20 ns;
+
+        wait for 5 ns;
         sig_rst <= '1';
         wait for 15 ns;
         sig_rst <= '0';
-        wait for 30 ns;
+        wait for 60 ns;
         sig_rst <= '1';
         wait for 15 ns;
         sig_rst <= '0';
@@ -92,20 +102,65 @@ begin
     p_stimulus : process
     begin
         report "Stimulus process started";
-        sig_data <='0'; wait for 13 ns;
-        
-        -- DEFINE YOUR INPUT DATA HERE
-        sig_data <='1'; wait for 13 ns;
-        sig_data <='0'; wait for 13 ns;
-        sig_data <='1'; wait for 13 ns;
-        sig_data <='1'; wait for 13 ns;
-        sig_data <='0'; wait for 13 ns;
-        sig_data <='1'; wait for 13 ns;
-        sig_data <='0'; wait for 13 ns;
-        sig_data <='1'; wait for 13 ns;
-        sig_data <='0'; wait for 13 ns;
-        
-        
+        sig_data <='0';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
+        wait for 13 ns;
+        sig_data <='1';
+        sig_j 	 <='0';
+        sig_k 	 <='1';
+        wait for 13 ns;
+        sig_data <='0';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
+        wait for 13 ns;
+        sig_data <='1';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
+        wait for 28 ns;
+        sig_data <='1';
+        sig_j 	 <='1';
+        sig_k 	 <='0';
+        wait for 11 ns;
+        sig_data <='0';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
+        wait for 13 ns;
+        sig_data <='1';
+        sig_j 	 <='1';
+        sig_k 	 <='1';
+        wait for 15 ns;
+        sig_data <='0';
+        sig_j 	 <='1';
+        sig_k 	 <='1';
+        wait for 13 ns;
+        sig_data <='1';
+        sig_j 	 <='0';
+        sig_k 	 <='1';
+        wait for 11 ns;
+        sig_data <='0';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
+        wait for 13 ns;
+        sig_data <='1';
+        sig_j 	 <='1';
+        sig_k 	 <='0';
+        wait for 23 ns;
+        sig_data <='0';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
+        wait for 10 ns;
+        sig_data <='1';
+        sig_j 	 <='1';
+        sig_k 	 <='1';
+        wait for 11 ns;
+        sig_data <='0';
+        sig_j 	 <='1';
+        sig_k 	 <='1';
+        wait for 13 ns;
+        sig_data <='1';
+        sig_j 	 <='0';
+        sig_k 	 <='0';
         
         report "Stimulus process finished";
         wait;
