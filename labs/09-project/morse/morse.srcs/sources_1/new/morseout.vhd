@@ -36,6 +36,8 @@ library ieee;
 --   rst          -- Synchronous reset
 --   dataX(3:0)   -- Data values for individual digits
 --   dp_vect(3:0) -- Decimal points for individual digits
+--   start
+--   spk   
 --
 -- Outputs:
 --   dp:          -- Decimal point for specific digit
@@ -62,9 +64,8 @@ architecture behavioral of morseout is
 
   -- Internal clock enable
   signal sig_en : std_logic;
-  signal sig_en : std_logic;
 
-  -- Internal 2-bit counter for multiplexing 4 digits
+
   signal sig_cnt_22bit : std_logic_vector(21 downto 0);
   
   

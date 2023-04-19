@@ -1,6 +1,16 @@
 library ieee;
   use ieee.std_logic_1164.all;
 
+-- Entity declaration for morse output generator
+-- Inputs: valid morse character (A-Z, 0-9) in 6bit binary number representation, where A is 0, Z is 25, 0 is 32 and 9 is 41
+-- Outputs: sequence of morse bits/timing
+-- 
+-- 
+-- 
+-- 
+-- 
+-- 
+
 entity bin2morse is
   port (
     bin   : in    std_logic_vector(5 downto 0); --! Binary representation of one binary symbol
