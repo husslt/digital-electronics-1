@@ -32,27 +32,26 @@ library ieee;
 --          4  +-------------------+
 --
 -- Inputs:
---   clk          -- Main clock
---   rst          -- Synchronous reset
---   dataX(3:0)   -- Data values for individual digits
---   dp_vect(3:0) -- Decimal points for individual digits
---   start
---   spk   
+--  tim(22:0):          -- Morse timing with added zeros at the end
+--  clke:          -- Main clock from clock enable
+--  rst:          -- Asynchronous reset
+--  start:        -- signal to start decoding
 --
 -- Outputs:
---   dp:          -- Decimal point for specific digit
---   seg(6:0)     -- Cathode values for individual segments
---   dig(3:0)     -- Common anode signals to individual digits
+--   outp:          -- morse timing without zeros at the end
+--   proc:     -- signal showing whether entity is processing or not
+--   
 --
 ----------------------------------------------------------
 
 entity morseout is
   port (
-    clk     : in    std_logic;
+    tim     : in    std_logic_vector(21 downto 0);
+    clke    : in    std_logic;
     rst     : in    std_logic;
     start   : in    std_logic;
-    data0   : in    std_logic_vector(4 downto 0);
-    spk     : out   std_logic_vector(6 downto 0)
+    outp    : out   std_logic;
+    proc    : out   std_logic_vector(2 downto 0)
   );
 end entity morseout;
 
@@ -63,76 +62,61 @@ end entity morseout;
 architecture behavioral of morseout is
 
   -- Internal clock enable
-  signal sig_en : std_logic;
+  signal sig_state : natural;
 
-
-  signal sig_cnt_22bit : std_logic_vector(21 downto 0);
-  
-  
-  signal sig_timing : std_logic_vector(21 downto 0);
-
-  -- Internal 5-bit value for morse char
-  signal sig_bin : std_logic_vector(4 downto 0);
+  signal sig_cnt : natural;
+  signal sig_zeros_cnt : natural;
 
 begin
 
   --------------------------------------------------------
-  -- Instance (copy) of clock_enable entity generates
-  -- an enable pulse every 4 ms
+  -- p_traffic_fsm:
+  -- A sequential process with synchronous reset and
+  -- clock_enable entirely controls the s_state signal by
+  -- CASE statement.
   --------------------------------------------------------
-  clk_en0 : entity work.clock_enable
-    generic map (
-      -- FOR SIMULATION, KEEP THIS VALUE TO 4
-      -- FOR IMPLEMENTATION, CHANGE THIS VALUE TO 400,000
-      -- 4      @ 4 ns
-      -- 400000 @ 4 ms
-      g_MAX => 40000000
-    )
-    port map (
-      clk => clk,
-      rst => rst,
-      ce  => sig_en
-    );
-
-  --------------------------------------------------------
-  -- Instance (copy) of cnt_up_down entity performs
-  -- a 2-bit down counter
-  --------------------------------------------------------
-  bin_cnt0 : entity work.cnt_up_down
-    generic map (
-      g_CNT_WIDTH => 22
-    )
-    port map (
-      clk    => clk,
-      rst    => rst,
-      en     => sig_en,
-      cnt_up => '0',
-      cnt => sig_cnt_22bit
-    );
-
-  --------------------------------------------------------
-  -- Instance (copy) of hex_7seg entity performs
-  -- a 7-segment display decoder
-  --------------------------------------------------------
-  binmorse : entity work.bin2morse
-    port map (
-      bin   => sig_bin,
-      seg   => sig_timing
-    );
-
-  --------------------------------------------------------
-  -- p_mux:
-  -- A sequential process that implements a multiplexer for
-  -- selecting data for a single digit, a decimal point,
-  -- and switches the common anodes of each display.
-  --------------------------------------------------------
-  p_mux : process (clk) is
+  p_morse_out : process (clke) is
   begin
-
-    if start = '1' then
-        
+    if rst = '0' then
+        if (rising_edge(clke)) then
+            case sig_state is
+              when 0 =>
+                outp <= '0';
+                proc <= "010";
+                sig_cnt <= 21;
+                sig_zeros_cnt <= 0;
+                if start = '1' then
+                    sig_state <= 1;
+                end if;
+                
+              when 1 =>
+                outp <= tim(sig_cnt);
+                proc <= "110";
+                sig_cnt <= sig_cnt - 1;
+              
+                if tim(sig_cnt) = '0' then
+                    sig_zeros_cnt <= sig_zeros_cnt + 1;
+                else
+                    sig_zeros_cnt <= 0;
+                end if;
+                
+                if sig_zeros_cnt >= 3 or sig_cnt < 0 then
+                    sig_state <= 0;
+                end if;
+    
+              when others =>
+                -- It is a good programming practice to use the
+                -- OTHERS clause, even if all CASE choices have
+                -- been made.
+                sig_state <= 0;
+            end case;
+    
+        end if; -- Rising edge
+    else
+        outp <= '0';
+        sig_state <= 0;
+        proc <= "001";
     end if;
-
-  end process p_mux;
+  end process p_morse_out;
 
 end architecture behavioral;
