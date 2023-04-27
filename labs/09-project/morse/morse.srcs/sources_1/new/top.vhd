@@ -34,11 +34,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity top is
   port (
     CLK100MHZ   : in    std_logic;                    --! Main clock
-    BTNC        : in    std_logic;                    --! High-active synchronous reset
+    BTNR        : in    std_logic;                    --! High-active synchronous reset
     BTNU        : in    std_logic; --! Traffic light for "south" direction
     SWA         : in    std_logic_vector (5 downto 0);
     RGB         : out   std_logic_vector (2 downto 0);
-    LED_OUT     : out   std_logic
+    SPEAKER     : out   std_logic;
+    LED_M       : out   std_logic_vector(5 downto 0);
+    MORSE_PIN   : in    std_logic;
+    RGB2        : out   std_logic_vector (2 downto 0)
   );
     
 end top;
@@ -53,6 +56,9 @@ architecture Behavioral of top is
 
   -- Local delay counter
   signal sig_tim : std_logic_vector(21 downto 0);
+  
+  
+  signal sig_tim_in : std_logic_vector(21 downto 0);
 
 
 begin
@@ -61,10 +67,10 @@ begin
   clk_en0 : entity work.clock_enable
     generic map (
       -- FOR SIMULATION, KEEP THIS VALUE TO 1
-      -- FOR IMPLEMENTATION, CALCULATE VALUE: 250 ms / (1/100 MHz)
+      -- FOR IMPLEMENTATION, CALCULATE VALUE: 200 ms / (1/100 MHz)
       -- 1   @ 10 ns
-      -- 25000000 @ 250 ms
-      g_MAX => 25000000
+      -- 20000000 @ 200 ms
+      g_MAX => 20000000
     )
     port map (
       clk => CLK100MHZ,
@@ -82,10 +88,27 @@ begin
     port map (
       clke => sig_en,
       rst => BTNU,
-      start => BTNC,
+      start => BTNR,
       tim => sig_tim,
       proc => RGB,
-      outp => LED_OUT
+      outp => SPEAKER
+    );
+    
+    ---------
+    
+    morse2bin_0 : entity work.morse2bin
+    port map (
+      bin => LED_M,
+      tim => sig_tim_in
+    );
+    
+    morsein_0 : entity work.morsein
+    port map (
+      clke => sig_en,
+      rst => BTNU,
+      tim => sig_tim_in,
+      proc => RGB2,
+      inp => MORSE_PIN
     );
 
 end Behavioral;

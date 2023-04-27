@@ -44,22 +44,21 @@ library ieee;
 --
 ----------------------------------------------------------
 
-entity morseout is
+entity morsein is
   port (
-    tim     : in    std_logic_vector(21 downto 0);
+    tim     : out   std_logic_vector(21 downto 0);
     clke    : in    std_logic;
     rst     : in    std_logic;
-    start   : in    std_logic;
-    outp    : out   std_logic;
+    inp     : in    std_logic;
     proc    : out   std_logic_vector(2 downto 0)
   );
-end entity morseout;
+end entity morsein;
 
 ----------------------------------------------------------
 -- Architecture declaration for display driver
 ----------------------------------------------------------
 
-architecture behavioral of morseout is
+architecture behavioral of morsein is
 
   -- Internal clock enable
   signal sig_state : natural;
@@ -75,35 +74,47 @@ begin
   -- clock_enable entirely controls the s_state signal by
   -- CASE statement.
   --------------------------------------------------------
-  p_morse_out : process (clke) is
+  p_morse_in : process (clke) is
   begin
     if rst = '0' then
         if (rising_edge(clke)) then
             case sig_state is
               when 0 =>
-                outp <= '0';
-                proc <= "000";
-                sig_cnt <= 21;
+                tim <= "0000000000000000000000";
+                proc <= "111";
+                sig_cnt <= 20;
                 sig_zeros_cnt <= 0;
-                if start = '1' then
+                if inp = '1' then
+                    tim(21) <= '1';
                     sig_state <= 1;
                 end if;
                 
               when 1 =>
-                outp <= tim(sig_cnt);
-                proc <= "110";
                 sig_cnt <= sig_cnt - 1;
-              
-                if tim(sig_cnt) = '0' then
+                
+                if inp = '0' then
                     sig_zeros_cnt <= sig_zeros_cnt + 1;
                 else
                     sig_zeros_cnt <= 0;
                 end if;
                 
-                if sig_zeros_cnt >= 3 or sig_cnt < 0 then
-                    sig_state <= 0;
+                if sig_zeros_cnt >= 3 or sig_cnt <= 0 then
+                    sig_state <= 2;
                 end if;
-    
+                
+                
+                tim(sig_cnt) <= inp;
+                proc <= "110";
+                
+              when 2 =>
+                proc <= "000";
+                if inp = '1' then
+                    tim <= "1000000000000000000000";
+                    sig_cnt <= 20;
+                    sig_zeros_cnt <= 0;
+                    sig_state <= 1;
+                end if;
+                
               when others =>
                 -- It is a good programming practice to use the
                 -- OTHERS clause, even if all CASE choices have
@@ -113,10 +124,10 @@ begin
     
         end if; -- Rising edge
     else
-        outp <= '0';
+        tim <= "0000000000000000000000";
         sig_state <= 0;
         proc <= "001";
     end if;
-  end process p_morse_out;
+  end process p_morse_in;
 
 end architecture behavioral;
