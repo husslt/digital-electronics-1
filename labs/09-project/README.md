@@ -138,7 +138,7 @@ Simulation:
 
 ## Demo
 
-![demo video in images/demo.mp4](images/demo.mp4)
+https://raw.githubusercontent.com/husslt/digital-electronics-1/main/labs/09-project/images/demo.mp4
 
 ## References
 
