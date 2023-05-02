@@ -10,7 +10,7 @@
 Custom numbering of characters:
 
 | Dec |   Bin  | Char |  Code |
--------------------------------
+| --- | ------ | ---- | ----- |
 |   1 | 000001 |   A  | .-    |
 |   2 | 000010 |   B  | -...  |
 |   3 | 000011 |   C  | -.-.  |
@@ -69,15 +69,15 @@ Insert descriptive text and schematic(s) of your implementation.
 
 ## Software description
 
-Put flowchats/state diagrams of your algorithm(s) and direct links to source/testbench files in `src` and `sim` folders. 
+TODO Put flowchats/state diagrams of your algorithm(s) and direct links to source/testbench files in `src` and `sim` folders. 
 
 ### Component(s) simulation
 
-Write descriptive text and simulation screenshots of your components.
+TODO Write descriptive text and simulation screenshots of your components.
 
 ## Instructions
 
-Write an instruction manual for your application, including photos or a link to a video.
+TODO Write an instruction manual for your application, including photos or a link to a video.
 
 ## References
 
