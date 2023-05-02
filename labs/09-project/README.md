@@ -65,7 +65,7 @@ Shift register clock has to respond to input morse timing.
 
 ![schema.png](schema.png)
 
-Insert descriptive text and schematic(s) of your implementation.
+For the purpose of testing the decoder, Arduino is used to generate morse code signal
 
 ## Software description
 
@@ -105,7 +105,10 @@ Simulation:
 Decodes incoming sequence on the input pin and converts it to 22bit binary vector. Is started automatically by the input signal. 
 
 Simulation:
-![morsein simulation](images/tb_morsein.png)
+![morsein simulation](images/tb_morsein_1.png)
+![morsein simulation](images/tb_morsein_2.png)
+![morsein simulation](images/tb_morsein_3.png)
+![morsein simulation](images/tb_morsein_zoomout.png)
 
 #### top
 
