@@ -88,7 +88,7 @@ Simulation:
 
 #### morseout
 
-Iterates over the 22bit timing vector and generates output signal. Starts encoding when a button is pressed. Stops when encoutering three zeros in a row. 
+Iterates over the 22bit timing vector and generates output signal. Starts encoding when a button is pressed. Stops after encoutering three zeros in a row. 
 
 Simulation:
 ![morseout simulation](images/tb_morseout.png)
