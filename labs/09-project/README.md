@@ -7,6 +7,8 @@
 
 ## Theoretical description and explanation
 
+"Morse timing constant" is 200 ms - meaning that each pause between dot/dash lasts 200 ms, each dot lasts also 200 ms and dash lasts 600 ms
+
 Custom numbering of characters:
 
 | Dec |   Bin  | Char |  Code |
@@ -51,7 +53,7 @@ Custom numbering of characters:
 ### Transmitter
 
 Character represented by number (using table above) is converted to its correspondending morse code timing (one big decoder).
-When triggered, selected timing will "shift-out" to one output bit
+When triggered, selected timing will "shift-out" to one output bit.
 
 ### Receiver
 
@@ -63,7 +65,9 @@ Shift register clock has to respond to input morse timing.
 
 ## Hardware description of demo application
 
-![schema.png](schema.png)
+![board schematic](images/board_hw_description.png)
+
+![schema.png](images/schema.png)
 
 For the purpose of testing the decoder, Arduino is used to generate morse code signal
 
@@ -135,3 +139,4 @@ Simulation:
 ## References
 
 1. https://archive.org/details/gov.archives.arc.36813
+2. https://digilent.com/reference/programmable-logic/nexys-a7/reference-manual
