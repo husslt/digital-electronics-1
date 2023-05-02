@@ -48,14 +48,14 @@ Custom numbering of characters:
 |  40 | 101000 |   8  | ---.. |
 |  41 | 101001 |   9  | ----  |
 
-### Transmiter
+### Transmitter
 
 Character represented by number (using table above) is converted to its correspondence morse code timing (one big decoder).
 When triggered selected timing will "shift-out" to one ouput bit
 
-### Reciver
+### Reciever
 
-When triggered input bit will "shift-in" to timming binary number (morsee code timing).
+When triggered input bit will "shift-in" to timming binary number (morse code timing).
 
 This "shifted-in" timing is converted to its correspondence morse code character (reversed decoder to trasmiter one).
 
@@ -69,15 +69,65 @@ Insert descriptive text and schematic(s) of your implementation.
 
 ## Software description
 
-TODO Put flowchats/state diagrams of your algorithm(s) and direct links to source/testbench files in `src` and `sim` folders. 
+![Internal schematic](images/schematic.png)
 
-### Component(s) simulation
+The device is implemented as a single block. Transmission and reception of signals are performed independently on each other. The device can work simultaneously as a transmitter and receiver. 
 
-TODO Write descriptive text and simulation screenshots of your components.
+### Entity description 
+#### clock_enable
+Divides base clock provided by the board - 100 MHz -> 5 Hz
+Simulation - here, the base clock is divided by 10 for clarity reason
+![clock enable simulation](images/tb_clock_enable.png)
+
+#### bin2morse
+
+Converts character represented by 6bit binary number (see table above for conversion) to sequence of characters which represent morse code timing. 22bit vector is used for all characters - if the timing is shorter than 22bits, the vector is appended by zeros to fill all 22 bits. 
+
+Simulation:
+![bin2morse simulation](images/tb_bin2morse.png)
+
+#### morseout
+
+Iterates over the 22bit timing vector and generates output signal. Starts encoding when a button is pressed. Stops when encoutering three zeros in a row. 
+
+Simulation:
+![morseout simulation](images/tb_morseout.png)
+
+#### morse2bin
+
+Inverse to bin2morse. Converts morse code timing in the form of 22bit vector to 6bit binary number which represents decoded character. 
+
+Simulation:
+![morse2bin simulation](images/tb_morse2bin.png)
+
+#### morsein
+
+Decodes incoming sequence on the input pin and converts it to 22bit binary vector. Is started automatically by the input signal. 
+
+Simulation:
+![morsein simulation](images/tb_morsein.png)
+
+#### top
+
+Envelope for all used entities. Provides connections between internal components and input/output with hardware. 
+
+Simulation:
+![top entity simulation](images/tb_top_desc.png)
 
 ## Instructions
 
-TODO Write an instruction manual for your application, including photos or a link to a video.
+### Transmitter
+1. Convert character to a number according to the conversion table
+2. Set the number in its binary representation to the six switches. Rightmost switch is LSB.
+3. Press BTNR (right middle) button to start transmission.
+4. Transmitted sequence now appears on the output pin H16 and the rightmost LED above the switches. 
+
+### Receiver
+
+1. Bring input signal to input pin D14
+2. Device now starts decoding, which is indicated by left state LED (yellow color)
+3. When the LED turns off, decoding is finished, read the 6 leftmost LEDs (6th from the left is LSB)
+4. Convert this binary number represented by LEDs back to the character using the table. 
 
 ## References
 

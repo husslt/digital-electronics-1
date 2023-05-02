@@ -100,7 +100,7 @@ set_property -dict { PACKAGE_PIN D14   IOSTANDARD LVCMOS33 } [get_ports { MORSE_
 #set_property -dict { PACKAGE_PIN E16   IOSTANDARD LVCMOS33 } [get_ports { JB[7] }]; #IO_L11N_T1_SRCC_15 Sch=jb[7]
 #set_property -dict { PACKAGE_PIN F13   IOSTANDARD LVCMOS33 } [get_ports { JB[8] }]; #IO_L5P_T0_AD9P_15 Sch=jb[8]
 #set_property -dict { PACKAGE_PIN G13   IOSTANDARD LVCMOS33 } [get_ports { JB[9] }]; #IO_0_15 Sch=jb[9]
-#set_property -dict { PACKAGE_PIN H16   IOSTANDARD LVCMOS33 } [get_ports { SPEAKER }]; #IO_L13P_T2_MRCC_15 Sch=jb[10]
+set_property -dict { PACKAGE_PIN H16   IOSTANDARD LVCMOS33 } [get_ports { SPEAKER }]; #IO_L13P_T2_MRCC_15 Sch=jb[10]
 
 ##Pmod Header JC
 #set_property -dict { PACKAGE_PIN K1    IOSTANDARD LVCMOS33 } [get_ports { JC[1] }]; #IO_L23N_T3_35 Sch=jc[1]
