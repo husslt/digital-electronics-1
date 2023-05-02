@@ -12,6 +12,7 @@ entity top is
     SWA         : in    std_logic_vector (5 downto 0);
     RGB         : out   std_logic_vector (2 downto 0);
     SPEAKER     : out   std_logic;
+	LED_OUT     : out   std_logic;
     LED_M       : out   std_logic_vector(5 downto 0);
     MORSE_PIN   : in    std_logic;
     RGB2        : out   std_logic_vector (2 downto 0)
