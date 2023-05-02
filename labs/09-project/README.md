@@ -136,6 +136,10 @@ Simulation:
 3. When the LED turns off, decoding is finished, read the 6 leftmost LEDs (6th from the left is LSB)
 4. Convert this binary number represented by LEDs back to the character using the table. 
 
+## Demo
+
+![demo video in images/demo.mp4](images/demo.mp4)
+
 ## References
 
 1. https://archive.org/details/gov.archives.arc.36813
