@@ -45,7 +45,7 @@ begin
   p_reset_gen : process is   -- Reset signal generation
   begin
 
-    sig_rst <= '0'; wait for 400 ns;
+    sig_rst <= '0'; wait for 320 ns;
     sig_rst <= '1'; wait for 18 ns; 
     -- Reset activated
 
@@ -58,34 +58,33 @@ begin
      
   p_inp_gen : process is  -- Input signal generation process
   begin
-	
-    sig_inp <= '0'; wait for 10 ns;
-    sig_inp <= '1'; wait for 30 ns;
-    sig_inp <= '0'; wait for 10 ns;
+		
+    sig_inp <= '0'; wait for 20 ns;
+    sig_inp <= '1'; wait for 60 ns;
+    sig_inp <= '0'; wait for 20 ns;
 	-- -
-    sig_inp <= '1'; wait for 10 ns;
-    sig_inp <= '0'; wait for 10 ns;
+    sig_inp <= '1'; wait for 20 ns;
+    sig_inp <= '0'; wait for 20 ns;
 	-- .
-    sig_inp <= '1'; wait for 30 ns;
-    sig_inp <= '0'; wait for 30 ns;
+    sig_inp <= '1'; wait for 60 ns;
+    sig_inp <= '0'; wait for 60 ns;
 	-- -
-	-- Generate sequence -.-
     wait for 100 ns;
 
-    sig_inp <= '0'; wait for 10 ns;
-    sig_inp <= '1'; wait for 30 ns;
-    sig_inp <= '0'; wait for 10 ns;
+    sig_inp <= '0'; wait for 20 ns;
+    sig_inp <= '1'; wait for 60 ns;
+    sig_inp <= '0'; wait for 20 ns;
 	-- -
-    sig_inp <= '1'; wait for 10 ns;
-    sig_inp <= '0'; wait for 10 ns;
+    sig_inp <= '1'; wait for 20 ns;
+    sig_inp <= '0'; wait for 20 ns;
 	-- .
-    sig_inp <= '1'; wait for 10 ns;
-    sig_inp <= '0'; wait for 30 ns;
+    sig_inp <= '1'; wait for 20 ns;
+    sig_inp <= '0'; wait for 60 ns;
 	-- .
-	-- Generate sequence -.-
+            
     sig_inp <= '0';
-	
     wait;
+
 
   end process p_inp_gen;
   
