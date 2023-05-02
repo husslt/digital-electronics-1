@@ -50,14 +50,14 @@ Custom numbering of characters:
 
 ### Transmitter
 
-Character represented by number (using table above) is converted to its correspondence morse code timing (one big decoder).
-When triggered selected timing will "shift-out" to one ouput bit
+Character represented by number (using table above) is converted to its correspondending morse code timing (one big decoder).
+When triggered, selected timing will "shift-out" to one output bit
 
-### Reciever
+### Receiver
 
-When triggered input bit will "shift-in" to timming binary number (morse code timing).
+When triggered, input bit will "shift-in" to timming binary number (morse code timing).
 
-This "shifted-in" timing is converted to its correspondence morse code character (reversed decoder to trasmiter one).
+This "shifted-in" timing is converted to its correspondending morse code character (reversed decoder to transmitter one).
 
 Shift register clock has to respond to input morse timing.
 
@@ -71,7 +71,7 @@ Insert descriptive text and schematic(s) of your implementation.
 
 ![Internal schematic](images/schematic.png)
 
-The device is implemented as a single block. Transmission and reception of signals are performed independently on each other. The device can work simultaneously as a transmitter and receiver. 
+The device is implemented as a single block. Transmission and reception of signals are performed independently on each other. The device can work simultaneously as a transmitter and a receiver. 
 
 ### Entity description 
 #### clock_enable
