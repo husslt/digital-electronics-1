@@ -1,3 +1,7 @@
+----------------------------------------------------------
+-- convert character to its morse code timing (timing for 'N' when unknown character)
+----------------------------------------------------------
+
 library ieee;
   use ieee.std_logic_1164.all;
 

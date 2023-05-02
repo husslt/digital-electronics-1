@@ -1,9 +1,12 @@
+----------------------------------------------------------
+-- convert morse code timing to character (111111 when unknown timing)
+----------------------------------------------------------
+
 library ieee;
   use ieee.std_logic_1164.all;
 
--- Entity declaration for morse output generator
--- Inputs: valid morse character (A-Z, 0-9) in 6bit binary number representation, where A is 0, Z is 25, 0 is 32 and 9 is 41
--- Outputs: sequence of morse bits/timing
+-- Inputs:  bin - valid morse character (A-Z, 0-9) in 6bit binary number representation, where A is 0, Z is 25, 0 is 32 and 9 is 41
+-- Outputs: tim - sequence of morse bits/timing
 -- 
 
 entity morse2bin is
@@ -97,7 +100,7 @@ begin
         when "1110111011101110100000" =>
             bin <= "101001"; -- 9
         when others =>
-            bin <= "111111"; --nic
+            bin <= "111111"; --null
       end case;
   end process p_morse_encoder;
 

@@ -1,15 +1,5 @@
 ----------------------------------------------------------
---
---! @title Driver for 4-digit 7-segment display
---! @author Tomas Fryza
---! Dept. of Radio Electronics, Brno Univ. of Technology, Czechia
---!
---! @copyright (c) 2020 Tomas Fryza
---! This work is licensed under the terms of the MIT license
---
--- Hardware: Nexys A7-50T, xc7a50ticsg324-1L
--- Software: TerosHDL, Vivado 2020.2, EDA Playground
---
+-- when start pressed play inputed timing 
 ----------------------------------------------------------
 
 library ieee;
@@ -17,30 +7,17 @@ library ieee;
   use ieee.numeric_std.all;
 
 ----------------------------------------------------------
--- Entity declaration for display driver
---
---             +-------------------+
---        -----|> clk              |
---        -----| rst            dp |-----
---             |          seg(6:0) |--/--
---        --/--| data0(3:0)        |  7
---        --/--| data1(3:0)        |
---        --/--| data2(3:0)        |
---        --/--| data3(3:0)        |
---          4  |           dig(3:0)|--/--
---        --/--| dp_vect(3:0)      |  4
---          4  +-------------------+
+-- Entity declaration for morse trasmiter
 --
 -- Inputs:
---  tim(22:0):          -- Morse timing with added zeros at the end
---  clke:          -- Main clock from clock enable
+--  tim(22:0):    -- Morse timing with added zeros at the end
+--  clke:         -- Main clock from clock enable (one dit)
 --  rst:          -- Asynchronous reset
 --  start:        -- signal to start decoding
 --
 -- Outputs:
---   outp:          -- morse timing without zeros at the end
---   proc:     -- signal showing whether entity is processing or not
---   
+--   outp:        -- morse timing without zeros at the end
+--   proc:        -- signal showing whether entity is processing or not (RGB LED)
 --
 ----------------------------------------------------------
 
@@ -56,7 +33,7 @@ entity morseout is
 end entity morseout;
 
 ----------------------------------------------------------
--- Architecture declaration for display driver
+-- Architecture declaration 
 ----------------------------------------------------------
 
 architecture behavioral of morseout is
@@ -64,42 +41,42 @@ architecture behavioral of morseout is
   -- Internal clock enable
   signal sig_state : natural;
 
-  signal sig_cnt : natural;
-  signal sig_zeros_cnt : natural;
+  signal sig_cnt : natural;        -- current possition in timing vector
+  signal sig_zeros_cnt : natural;  -- number of noninterrupted zeros (silence)
 
 begin
-
-  --------------------------------------------------------
-  -- p_traffic_fsm:
-  -- A sequential process with synchronous reset and
-  -- clock_enable entirely controls the s_state signal by
-  -- CASE statement.
-  --------------------------------------------------------
   p_morse_out : process (clke) is
   begin
     if rst = '0' then
         if (rising_edge(clke)) then
             case sig_state is
               when 0 =>
+                -- wait for start - do nothing and wait
+
                 outp <= '0';
-                proc <= "000";
-                sig_cnt <= 21;
+                proc <= "000"; -- black
+                sig_cnt <= 21; -- pos set to MSB
                 sig_zeros_cnt <= 0;
                 if start = '1' then
                     sig_state <= 1;
                 end if;
                 
               when 1 =>
-                outp <= tim(sig_cnt);
-                proc <= "110";
-                sig_cnt <= sig_cnt - 1;
+                -- start pressed 
+                -- play 'tim' when 3 zeros (character break) move to when 0
+
+                outp <= tim(sig_cnt);     -- play sequence in stored in 'tim'
+                proc <= "110";            -- yellow
+                sig_cnt <= sig_cnt - 1;   -- move by one bit in sequence
               
+                -- noninterrupted zeros
                 if tim(sig_cnt) = '0' then
                     sig_zeros_cnt <= sig_zeros_cnt + 1;
                 else
                     sig_zeros_cnt <= 0;
                 end if;
                 
+                -- break to state 1 if 3 noninterrupted zeros (character break) or end of 'timm'
                 if sig_zeros_cnt >= 3 or sig_cnt < 0 then
                     sig_state <= 0;
                 end if;
@@ -113,6 +90,7 @@ begin
     
         end if; -- Rising edge
     else
+        -- reset state - blue color
         outp <= '0';
         sig_state <= 0;
         proc <= "001";
