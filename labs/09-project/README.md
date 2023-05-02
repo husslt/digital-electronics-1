@@ -138,7 +138,8 @@ Simulation:
 
 ## Demo
 
-https://raw.githubusercontent.com/husslt/digital-electronics-1/main/labs/09-project/images/demo.mp4
+https://user-images.githubusercontent.com/124718925/235793953-8e86c8a9-3ec3-4a11-a3e6-49b882a4462e.mp4
+
 
 ## References
 
